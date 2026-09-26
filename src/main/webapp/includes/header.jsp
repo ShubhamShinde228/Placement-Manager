@@ -1,4 +1,5 @@
 <%@ page import="com.placement.model.User" %>
+<%@ page import="com.placement.dao.NotificationDAO" %>
 <%
     String pageTitle = (String) request.getAttribute("pageTitle");
     if (pageTitle == null || pageTitle.trim().isEmpty()) {
@@ -10,7 +11,11 @@
     if (flashSuccess != null) session.removeAttribute("flashSuccess");
     if (flashError   != null) session.removeAttribute("flashError");
 
-    // Used for active nav-link highlighting
+    int unreadCount = 0;
+    try {
+        unreadCount = new NotificationDAO().getUnreadCount();
+    } catch(Exception e) {}
+    
     String currentUri = request.getRequestURI();
 %>
 <!DOCTYPE html>
@@ -98,8 +103,13 @@
     <ul class="navbar-nav ms-auto align-items-center">
         <!-- Notification Bell -->
         <li class="nav-item dropdown no-arrow mx-1">
-            <a class="nav-link text-secondary" href="#" role="button" data-bs-toggle="dropdown">
+            <a class="nav-link text-secondary position-relative" href="notifications">
                 <i class="bi bi-bell-fill fs-5"></i>
+                <% if (unreadCount > 0) { %>
+                    <span class="position-absolute top-25 start-75 translate-middle badge rounded-pill bg-danger" style="font-size: 0.6rem;">
+                        <%= unreadCount %>
+                    </span>
+                <% } %>
             </a>
         </li>
         <div class="topbar-divider d-none d-sm-block mx-3 border-start h-50"></div>
@@ -112,7 +122,7 @@
                 <i class="bi bi-person-circle fs-4 text-secondary"></i>
             </a>
             <ul class="dropdown-menu dropdown-menu-end shadow border-0" aria-labelledby="userDropdown">
-                <li><a class="dropdown-item" href="#"><i class="bi bi-gear fa-sm fa-fw me-2 text-gray-400"></i> Settings</a></li>
+                <li><a class="dropdown-item" href="settings"><i class="bi bi-gear fa-sm fa-fw me-2 text-gray-400"></i> Settings</a></li>
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="logout"><i class="bi bi-box-arrow-right fa-sm fa-fw me-2 text-gray-400"></i> Logout</a></li>
             </ul>
@@ -169,13 +179,13 @@
                         </a>
                     </li>
                     <li class="nav-item mt-4">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link <%= currentUri.contains("/reports") ? "active" : "" %>" href="reports">
                             <i class="bi bi-bar-chart-fill"></i>
                             Reports
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link <%= currentUri.contains("/settings") ? "active" : "" %>" href="settings">
                             <i class="bi bi-gear-fill"></i>
                             Settings
                         </a>
