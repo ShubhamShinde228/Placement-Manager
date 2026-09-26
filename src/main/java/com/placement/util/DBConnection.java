@@ -11,9 +11,20 @@ import java.sql.DriverManager;
  */
 public class DBConnection {
 
-    private static final String URL      = "jdbc:mysql://localhost:3306/placement_manager";
-    private static final String USERNAME = "root";
-    private static final String PASSWORD = "shubham@1234";
+    private static String getDbUrl() {
+        String env = System.getenv("DB_URL");
+        return (env != null && !env.isBlank()) ? env : "jdbc:mysql://localhost:3306/placement_manager";
+    }
+
+    private static String getDbUsername() {
+        String env = System.getenv("DB_USERNAME");
+        return (env != null && !env.isBlank()) ? env : "root";
+    }
+
+    private static String getDbPassword() {
+        String env = System.getenv("DB_PASSWORD");
+        return (env != null && !env.isBlank()) ? env : "shubham@1234";
+    }
 
     /**
      * Returns a new JDBC connection.
@@ -21,6 +32,6 @@ public class DBConnection {
      */
     public static Connection getConnection() throws Exception {
         Class.forName("com.mysql.cj.jdbc.Driver");
-        return DriverManager.getConnection(URL, USERNAME, PASSWORD);
+        return DriverManager.getConnection(getDbUrl(), getDbUsername(), getDbPassword());
     }
 }
