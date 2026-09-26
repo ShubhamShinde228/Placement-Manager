@@ -1,0 +1,11 @@
+target/
+.settings/
+.classpath
+.project
+*.class
+.DS_Store
+.metadata
+bin/
+logs/
+ForceSchemaFix.java
+TestDB.java
