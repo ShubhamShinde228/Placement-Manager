@@ -49,6 +49,27 @@ public class DriveDAO {
         return drives;
     }
 
+    public List<Drive> getActiveDrives() {
+        List<Drive> drives = new ArrayList<>();
+        String sql = "SELECT d.*, c.name AS company_name FROM drives d "
+                + "JOIN companies c ON d.company_id = c.company_id "
+                + "WHERE d.status = 'OPEN' "
+                + "ORDER BY d.drive_date ASC";
+
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                drives.add(map(rs));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return drives;
+    }
+
     public Drive getDriveById(int driveId) {
         String sql = "SELECT d.*, c.name AS company_name FROM drives d "
                 + "JOIN companies c ON d.company_id = c.company_id "

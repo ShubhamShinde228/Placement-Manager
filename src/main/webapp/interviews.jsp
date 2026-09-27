@@ -17,17 +17,25 @@
 %>
 <%@ include file="includes/header.jsp" %>
 
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <h2 class="mb-0">Interview Rounds</h2>
-    <span class="text-muted small">Schedule rounds and record results (PENDING / PASS / FAIL)</span>
+<!-- Page Header -->
+<div class="page-header">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-1">
+            <li class="breadcrumb-item"><a href="dashboard">Dashboard</a></li>
+            <li class="breadcrumb-item active">Recruitment Process</li>
+            <li class="breadcrumb-item active">Interviews</li>
+        </ol>
+    </nav>
+    <h1><i class="bi bi-mic-fill me-2 text-primary"></i>Interview Rounds</h1>
+    <p>Schedule interview rounds and record results. Students need at least one PASS to qualify for final selection.</p>
 </div>
 
 <%-- ===== Schedule / Edit form ===== --%>
 <div class="card border-0 shadow-sm mb-4">
-    <div class="card-header bg-white fw-semibold">
+    <div class="card-header d-flex align-items-center gap-2">
         <c:choose>
-            <c:when test="${not empty interview}">Edit Interview</c:when>
-            <c:otherwise>Schedule Interview Round</c:otherwise>
+            <c:when test="${not empty interview}"><i class="bi bi-pencil-square text-warning"></i> Edit Interview</c:when>
+            <c:otherwise><i class="bi bi-plus-circle-fill text-primary"></i> Schedule Interview Round</c:otherwise>
         </c:choose>
     </div>
     <div class="card-body">
@@ -128,15 +136,9 @@
                         <td class="small text-muted">${item.interviewDatetime}</td>
                         <td>
                             <c:choose>
-                                <c:when test="${item.result == 'PASS'}">
-                                    <span class="badge bg-success fs-6">&#10003; PASS</span>
-                                </c:when>
-                                <c:when test="${item.result == 'FAIL'}">
-                                    <span class="badge bg-danger fs-6">&#10007; FAIL</span>
-                                </c:when>
-                                <c:otherwise>
-                                    <span class="badge bg-warning text-dark fs-6">&#8987; PENDING</span>
-                                </c:otherwise>
+                                <c:when test="${item.result == 'PASS'}"><span class="badge badge-pass">&#10003; PASS</span></c:when>
+                                <c:when test="${item.result == 'FAIL'}"><span class="badge badge-fail">&#10007; FAIL</span></c:when>
+                                <c:otherwise><span class="badge badge-pending">&#8987; PENDING</span></c:otherwise>
                             </c:choose>
                         </td>
                         <td class="text-nowrap">
@@ -149,11 +151,7 @@
                     </tr>
                 </c:forEach>
                 <c:if test="${empty interviews}">
-                    <tr>
-                        <td colspan="7" class="text-center text-muted py-4">
-                            &#128197; No interview records yet. Schedule the first round above.
-                        </td>
-                    </tr>
+                    <tr><td colspan="7"><div class="empty-state"><span class="empty-icon">&#128197;</span><h5>No Interview Records</h5><p>Schedule the first interview round using the form above.</p></div></td></tr>
                 </c:if>
                 </tbody>
             </table>

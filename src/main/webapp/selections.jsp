@@ -2,9 +2,17 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ include file="includes/header.jsp" %>
 
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <h2 class="mb-0">Final Selection</h2>
-    <span class="text-muted small">Students who passed interviews and received offers</span>
+<!-- Page Header -->
+<div class="page-header">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-1">
+            <li class="breadcrumb-item"><a href="dashboard">Dashboard</a></li>
+            <li class="breadcrumb-item active">Outcomes</li>
+            <li class="breadcrumb-item active">Selections</li>
+        </ol>
+    </nav>
+    <h1><i class="bi bi-trophy-fill me-2 text-warning"></i>Final Selections</h1>
+    <p>Students who cleared all interviews and received placement offers.</p>
 </div>
 
 <%-- ===== Add selection form ===== --%>
@@ -126,11 +134,7 @@
                     </tr>
                 </c:forEach>
                 <c:if test="${empty selections}">
-                    <tr>
-                        <td colspan="7" class="text-center text-muted py-4">
-                            &#127942; No students selected yet. Complete the interview stage first.
-                        </td>
-                    </tr>
+                    <tr><td colspan="7"><div class="empty-state"><span class="empty-icon">&#127942;</span><h5>No Selections Yet</h5><p>Complete the interview stage first, then finalise selections here.</p></div></td></tr>
                 </c:if>
                 </tbody>
             </table>
